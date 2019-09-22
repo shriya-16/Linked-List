@@ -1,0 +1,84 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+    int data;
+    struct node* next;
+}*head,*temp,*new_node;
+int insabeg(int val){
+	if(head == NULL){
+		head = malloc(sizeof(struct node*));
+		if(!head){
+			printf("unable to allocate memory");
+			return 0;
+		}
+		head->data = val;
+		head->next = NULL;
+	}
+	else{
+		new_node = malloc(sizeof(struct node*));
+		if(!new_node){
+			printf("unable to allocate memory");
+			return 0;
+		}
+		new_node->data = val;
+		new_node->next = head;
+		head = new_node;
+	}
+}
+void insagp(int pos, int val){
+	head = malloc(sizeof(struct node*));
+	if(!head){
+		printf("unable to allocate memory");
+		return 0;
+	}
+	if(pos == 1){ 
+		new_node->data = val;
+		new_node->next = head;
+		head = new_node;
+	}
+	else{
+		int i = 1;
+		temp = head;
+		for(i; i < pos-1; i++){
+			if(temp->next == NULL){
+			printf("No sufficient nodes, so inserting at end");
+			new_node->data = val;
+			new_node->next = NULL;
+			temp->next = new_node;
+			return 0;
+		}
+		temp->next = new_node;
+	}
+	return 0;
+}
+void insaend(int val){
+	head = malloc(sizeof(struct node*));
+	if(!head){
+		printf("unable to allocate memory");
+		return 0;
+	}
+	while(temp->next != NULL){
+	temp = temp->next;
+	}
+	new_node->data = val;
+	new_node->next = NULL;
+	temp->next = new_node;
+	return 0;
+}
+void display(){
+	temp = head;
+	while(temp != NULL){
+		printf("%d ",temp->data);
+		temp = temp->next;
+	}
+}
+int main()
+{
+	insabeg(1);
+	insabeg(2);
+	insagp(2,3);
+	insaend(5);
+	display();
+	return 0;
+}
+		
