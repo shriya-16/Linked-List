@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node
+{
+    int data;
+    struct Node * next;
+};
+
+void display(struct Node * h)
+{
+    if(h==NULL)
+    {
+        printf("NULL");
+        return;
+    }
+    while(h!=NULL)
+    {
+        printf("%d ",h->data);
+        h = h -> next;
+    }
+    printf("\n");
+}
+struct Node * addNode(struct Node * h)
+{
+    struct Node * newnode = (struct Node*)malloc(sizeof(struct Node));
+    scanf("%d ",&newnode->data);
+    newnode->next=NULL;
+    h->next = newnode;
+    return newnode;
+}
+
+void merge(struct Node * h1, struct Node *h2){
+    struct Node * temp;
+    do
+    {
+        temp= h1->next;
+        h1->next=h2;
+        h2=temp;
+        h1=h1->next;
+    }while(temp!=NULL);
+}
+
+int main(){
+    int size1, size2, bool;
+    struct Node * head = NULL;
+    struct Node * temp = NULL;
+    struct Node * head1 = NULL;
+    struct Node * temp1 = NULL;
+    scanf("%d %d",&size1,&size2);
+    head = (struct Node*)malloc(sizeof(struct Node));
+    temp = head;
+
+    scanf("%d ",&head->data);
+    head->next = NULL;
+    size1--;
+    while(size1>0)
+    {
+        temp = addNode(temp);
+        size1--;
+    }
+    head1 = (struct Node*)malloc(sizeof(struct Node));
+    temp1 = head1;
+    scanf("%d ",&head1->data);
+    head1->next = NULL;
+    size2--;
+    while(size2>0)
+    {
+        temp1 = addNode(temp1);
+        size2--;
+    }
+    merge(head,head1);
+    display(head);
+    return 0;
+}
