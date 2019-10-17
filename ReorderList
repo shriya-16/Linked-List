@@ -1,0 +1,90 @@
+//Original List : L1 --> L2 --> L3 -->L4 .... ..... .... -->Ln-1 -->Ln
+//Reordered List: L1 --> Ln --> L2 -->Ln-1 .... ..... .... -->Lx -->Ln-x
+
+
+#include <stdio.h>
+#include <stdlib.h>
+struct Node
+{
+    int data;
+    struct Node * next;
+};
+
+//Function to reverse the linked list
+
+
+struct Node* reverse(struct Node* head1){
+    struct Node *curr = head1, *prev = NULL, *Next = NULL;
+    while(curr!=NULL){
+        Next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = Next;
+    }
+    return prev;
+}
+struct Node* reorderList(struct Node* head)
+{
+    struct Node *temp = head, *temp1 = head;
+    struct Node *head1 = head;
+    int len=0, i=1;
+    while(temp!=NULL){
+        len++;
+        temp = temp->next;
+    }
+    while(i < len/2){
+        head1 = head1->next;
+        i++;
+    }
+    temp = head1;
+    head1 = head1->next;
+    temp->next = NULL;
+    head1 = reverse(head1);
+    do
+    {
+        temp = temp1->next;
+        temp1->next = head1;
+        head1 = temp;
+        temp1 = temp1->next;
+    }while(temp!=NULL);
+    return head;
+}
+
+void display(struct Node * h)
+{
+    while(h!=NULL)
+    {
+        printf("%d ",h->data);
+        h = h->next;
+    }
+}
+
+struct Node * addNode(struct Node * h)
+{
+    struct Node * newnode = (struct Node*)malloc(sizeof(struct Node));
+    scanf("%d ",&newnode->data);
+    newnode->next=NULL;
+    h->next = newnode;
+    return newnode;
+}
+
+int main()
+{
+    int size;
+    struct Node * head = NULL;
+    struct Node * head1 = NULL;
+    scanf("%d ",&size);
+    head = (struct Node*)malloc(sizeof(struct Node));
+    head1 = head;
+    scanf("%d ",&head->data);
+    head->next = NULL;
+    size--;
+    while(size>0)
+    {
+        head1 = addNode(head1);
+        size--;
+    }
+    head = reorderList(head);
+    display(head);
+    return 0;
+}
