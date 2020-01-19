@@ -33,6 +33,20 @@ void append(Node** head, int new_val){
     temp->next = new_node;
 }
 
+void deleteNode(Node** head, int val){
+    Node* temp = (*head);
+    if(temp->val == val){
+        (*head) = temp->next;
+        free(temp);
+        return;
+    }
+    while(temp->next->val != val)
+        temp = temp->next;
+    Node* temp1 = temp->next;
+    temp->next = temp1->next;
+    free(temp1);
+}
+
 void printList(Node** head){
     Node* temp = (*head);
     while(temp != NULL){
@@ -49,6 +63,8 @@ int main(){
     add(&head, 3);
     insertAfter(&head, 4, 2);
     append(&head, 5);
+    printList(&head);
+    deleteNode(&head, 4);
     printList(&head);
     return 0;
 }
