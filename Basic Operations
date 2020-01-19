@@ -33,7 +33,24 @@ void append(Node** head, int new_val){
     temp->next = new_node;
 }
 
-void deleteNode(Node** head, int val){
+void deleteNode(Node** head, int pos){
+    Node* temp = (*head), *temp1;
+    int i = 1;
+    if(pos == 1){
+        (*head) = temp->next;
+        free(temp);
+        return;
+    }
+    while(i+1 != pos){
+        temp = temp->next;
+        i++;
+    }
+    temp1 = temp->next;
+    temp->next = temp1->next;
+    free(temp1);
+}
+
+void deleteVal(Node** head, int val){
     Node* temp = (*head);
     if(temp->val == val){
         (*head) = temp->next;
@@ -53,6 +70,7 @@ void printList(Node** head){
         cout << temp->val << " ";
         temp = temp->next;
     }
+    cout << endl;
 }
 
 int main(){
@@ -61,10 +79,12 @@ int main(){
     head->next = NULL;
     add(&head, 2);
     add(&head, 3);
+    add(&head, 6);
     insertAfter(&head, 4, 2);
     append(&head, 5);
     printList(&head);
-    deleteNode(&head, 4);
+    deleteVal(&head, 4);
+    deleteNode(&head, 3);
     printList(&head);
     return 0;
 }
