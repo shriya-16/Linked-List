@@ -1,0 +1,73 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+};
+
+void append(Node** head, int val){
+    Node* temp = new Node();
+    temp->val = val;
+    temp->next = NULL;
+    Node* temp1 = (*head);
+    while(temp1->next != NULL)
+        temp1 = temp1->next;
+    temp1->next = temp;
+}
+
+void printList(Node** head){
+    Node *temp = (*head);
+    while(temp != NULL){
+        cout << temp->val << " ";
+        temp = temp->next;
+    }
+    cout << "\n";
+}
+
+void swap(Node** head, int x, int y){
+    if(x == y)    return;
+    
+    Node *xprev = NULL, *xnode = (*head);
+    while(xnode && xnode->val != x){
+        xprev = xnode;
+        xnode = xnode->next;
+    }
+    Node *yprev = NULL, *ynode = (*head);
+    while(ynode && ynode->val != y){
+        yprev = ynode;
+        ynode = ynode->next;
+    }
+    if(!xnode || !ynode)    return;
+    
+    if(xprev != NULL)
+        xprev->next = ynode;
+    else
+        (*head) = ynode;
+    
+    if(yprev != NULL)
+        yprev->next = xnode;
+    else
+        (*head) = xnode;
+        
+    Node *temp = ynode->next;
+    ynode->next = xnode->next;
+    xnode->next = temp;
+    
+}
+
+int main(){
+    Node* head = new Node();
+    head->val = 1;
+    head->next = NULL;
+    append(&head, 2);
+    append(&head, 3);
+    append(&head, 4);
+    append(&head, 5);
+    append(&head, 6);
+    printList(&head);
+    swap(&head, 1, 5);
+    printList(&head);
+    return 0;
+}
