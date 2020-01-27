@@ -1,0 +1,51 @@
+
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef uintptr_t ut;
+class Node{
+    public:
+    int val;
+    Node* next;
+};
+
+void append(Node** head, int new_val){
+    Node* new_node = new Node();
+    new_node->val = new_val;
+    Node* temp = (*head);
+    while(temp->next != NULL)
+        temp = temp->next;
+    temp->next = new_node;
+}
+
+void printList(Node** head){
+    Node* temp = (*head);
+    while(temp != NULL){
+        cout << temp->val << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
+
+void reverse(Node **head){
+    Node* prev = NULL;
+    Node* curr = (*head);
+    while(curr != NULL)
+        curr = (Node*)((ut)prev ^ (ut)curr ^ (ut)curr->next ^ (ut)(curr->next = prev) ^ (ut)(prev = curr));
+    (*head) = prev;
+}
+
+int main(){
+    Node* head = new Node;
+    head->val = 1;
+    head->next = NULL;
+    append(&head, 2);
+    append(&head, 3);
+    append(&head, 6);
+    reverse(&head);
+    printList(&head);
+    return 0;
+}
+
+    
+
