@@ -1,0 +1,67 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+struct Node{
+    int data;
+    struct Node* next;
+};
+
+void push(struct Node** head, int new_data){
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = new_data;
+    new_node->next = (*head);
+    (*head) = new_node;
+}
+
+void printList(struct Node* a){
+    while(a != NULL){
+        cout << a->data << " ";
+        a = a->next;
+    }
+    cout << endl;
+}
+
+Node* reverse(struct Node* head, int s){
+    struct Node *curr = head, *prev = NULL;
+    stack<Node*> stack;
+    while(curr != NULL){
+        int count = 0;
+        while(curr != NULL && count < s){
+            stack.push(curr);
+            curr = curr->next;
+            count++;
+        }
+        while(stack.size()){
+            if(prev == NULL){
+                prev = stack.top();
+                head = prev;
+                stack.pop();
+            }
+            else{
+                prev->next = stack.top();
+                prev = prev->next;
+                stack.pop();
+            }
+        }
+    }
+    prev->next = NULL;
+    return head;
+}
+
+int main() {
+    struct Node* head = NULL;
+    push(&head, 9);
+    push(&head, 8);
+    push(&head, 7);
+    push(&head, 6);
+    push(&head, 5);
+    push(&head, 4);
+    push(&head, 3);
+    push(&head, 2);
+    push(&head, 1);
+    printList(head);
+    head = reverse(head, 3);
+    printList(head);
+    return 0;
+}
