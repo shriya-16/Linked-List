@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct Node{
+    int data;
+    struct Node *left, *right;
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+
+void inorder(Node *root, vector<int>& V){
+    if(root == NULL)
+        return;
+    inorder(root->left, V);
+    V.push_back(root->data);
+    inorder(root->right, V);
+}
+
+Node* btreetocList(Node* root){
+    if(root == NULL)
+        return NULL;
+    vector<int> V;
+    inorder(root, V);
+    
+    Node* head = new Node(V[0]);
+    Node *curr = head;
+    for(int i = 1; i < V.size(); i++){
+        Node *new_node = new Node(V[i]);
+        curr->right = new_node;
+        new_node->left = curr;
+        curr = curr->right;
+    }
+    curr->right = head;
+    head->left = curr;
+    return head;
+}
+
+void dispClist(Node *head){
+    Node *itr = head;
+    if(head != NULL){
+        do{
+            cout << itr->data << " ";
+            itr = itr->right;
+        }while(itr != head);
+        cout  << "\n";
+    }
+}
+
+int main(){
+    struct Node* root = new Node(10);
+    root->left = new Node(12);
+    root->right = new Node(15);
+    root->left->left = new Node(25);
+    root->left->right = new Node(30);
+    root->right->left = new Node(36);
+    Node* head = btreetocList(root);
+    dispClist(head);
+    return 0;
+}
