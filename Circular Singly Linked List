@@ -1,0 +1,76 @@
+#include <iostream>
+
+using namespace std;
+
+struct Node{
+    int data;
+    Node *next;
+};
+
+void append(struct Node **last, int data){
+    struct Node* temp = new Node();
+    temp->data = data;
+   if((*last) == NULL){
+       temp->next = temp;
+       (*last) = temp;
+   }
+   else{
+       temp->next = (*last)->next;
+       (*last)->next = temp;
+       (*last) = temp;
+   }
+}
+
+void printList(Node* last){
+    Node* curr = last->next;
+    if(curr){
+        do{
+            cout << curr->data << " ";
+            curr = curr->next;
+        }while(curr != last->next);
+    }
+    cout << "\n";
+}
+
+void deleteNode(Node** last, int data){
+    if((*last) == NULL)
+        return;
+    Node *curr = (*last)->next, *prev = NULL;
+    do{
+        if(curr->data == data){
+            if((*last)->next == curr){
+                (*last)->next = curr->next;
+                free(curr);
+                return;
+            }
+            else if(curr == (*last)){
+                prev->next = curr->next;
+                free(curr);
+                (*last) = prev;
+            }
+            else{
+                prev->next = curr->next;
+                free(curr);
+            }
+            return;
+        }
+        else{
+            prev = curr;
+            curr = curr->next;
+        }
+    }while(curr != (*last)->next);
+}
+
+int main() {
+    Node *last = NULL;
+    append(&last, 2);
+    append(&last, 5);
+    append(&last, 1);
+    append(&last, 9);
+    append(&last, 8);
+    append(&last, 11);
+    printList(last);
+    deleteNode(&last, 11);
+    printList(last);
+    return 0;
+}
