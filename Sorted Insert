@@ -19,7 +19,7 @@ void sortedInsert(Node** head, int new_data){
         return;
     }
     
-    else if(curr->data > temp->data){
+    else if(curr->data >= temp->data){
         while(curr->next != (*head))
             curr = curr->next;
         temp->next = (*head);
