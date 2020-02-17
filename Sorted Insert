@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+};
+
+void sortedInsert(Node** head, int new_data){
+    Node* curr = (*head);
+    Node* temp = new Node();
+    temp->data = new_data;
+    temp->next = NULL;
+    
+    if((*head) == NULL){
+        temp->next = temp;
+        (*head) = temp;
+        return;
+    }
+    
+    else if(curr->data > temp->data){
+        while(curr->next != (*head))
+            curr = curr->next;
+        temp->next = (*head);
+        curr->next = temp;
+        (*head) = temp;
+    }
+    
+    else{
+        while(curr->next->data < temp->data && curr->next != (*head))
+            curr = curr->next;
+        temp->next = curr->next;
+        curr->next = temp;    
+    }
+}
+
+void push(Node** head, int new_data){
+    Node* temp = new Node();
+    temp->data = new_data;
+    temp->next = (*head);
+    Node* curr = (*head);
+    
+    if((*head) != NULL){
+        while(curr->next != (*head))
+            curr = curr->next;
+        curr->next = temp;
+    }
+    else
+        temp->next = temp;
+    (*head) = temp;
+}
+
+void printList(Node* head){
+    Node* curr = head;
+    if(head){
+        do{
+            cout << curr->data << " ";
+            curr = curr->next;
+        }while(curr != head);
+    }
+    cout << endl;
+}
+
+int main() {
+    Node* head = NULL, *head1 = NULL, *head2 = NULL;
+    push(&head, 11);
+    push(&head, 9);
+    push(&head, 7);
+    push(&head, 3);
+    printList(head);
+    sortedInsert(&head, 8);
+    printList(head);
+    return 0;
+}
